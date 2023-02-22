@@ -8,8 +8,10 @@ class Group(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True)
     description = models.TextField()
+
     def __str__(self):
         return f'{self.title}'
+
 
 class Post(models.Model):
     text = models.TextField()
@@ -21,7 +23,7 @@ class Post(models.Model):
     )
     group = models.ForeignKey(
         Group,
-        blank=True, 
+        blank=True,
         null=True,
         on_delete=models.CASCADE
         )
