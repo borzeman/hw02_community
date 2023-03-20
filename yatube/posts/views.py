@@ -1,15 +1,19 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Post, Group
+from .models import Post, Group, User
+import datetime
 
 NUM_ART = 10  # Количество выводимых статей
 
 
 def index(request):
-    posts = Post.objects.order_by('-pub_date')[:NUM_ART]
-    context = {
-        'posts': posts,
-    }
-    return render(request, 'posts/index.html', context)
+    author = User.objects.get(username='leo')
+    keyword = "утро"
+    start_date = datetime.date(1854, 7, 7)
+    end_date = datetime.date(1854, 7, 21)
+    posts = Post.objects.filter(text__contains=keyword).filter(
+      author=author).filter(pub_date__range=(start_date, end_date))
+
+    return render(request, 'posts/index.html', {"posts": posts})
 
 
 def group_post(request, slug):
